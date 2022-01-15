@@ -1,11 +1,6 @@
-import {
-  Flex,
-  VStack,
-  Heading,
-  Button,
-  FormControl,
-  FormLabel,
-} from "@chakra-ui/react";
+import Link from "next/link";
+import { Flex, VStack, Heading, Button } from "@chakra-ui/react";
+import { FaArrowLeft } from "react-icons/fa";
 import { Input } from "../components/Form/Input";
 
 export default function SignUp() {
@@ -14,14 +9,21 @@ export default function SignUp() {
       <Flex
         as="form"
         direction="column"
-        w="360px"
+        w={["300px", "400px"]}
         bg="gray.600"
         borderRadius="8px"
-        p="6"
+        p={["4", "6"]}
       >
-        <Heading fontSize="xl" color="purple.50">
-          Sign Up
-        </Heading>
+        <Flex align="center" gap="4">
+          <Link href="/">
+            <Button bg="none" _hover={{ bg: "none" }}>
+              <FaArrowLeft style={{ color: "white" }} />
+            </Button>
+          </Link>
+          <Heading fontSize="xl" color="purple.50">
+            Sign Up
+          </Heading>
+        </Flex>
 
         <VStack mt="4" spacing="4">
           <Input name="name" label="Name" />

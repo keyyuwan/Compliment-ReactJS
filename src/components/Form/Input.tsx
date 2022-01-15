@@ -8,7 +8,7 @@ type InputProps = {
 export function Input({ name, label }: InputProps) {
   return (
     <FormControl>
-      <FormLabel htmlFor={name} color="purple.50">
+      <FormLabel htmlFor={name} color="white">
         {label}
       </FormLabel>
       <ChakraInput
