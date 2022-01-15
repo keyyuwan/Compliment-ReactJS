@@ -26,8 +26,8 @@ export function SignIn({ isOpen, onClose }: SignInProps) {
 
         <ModalBody>
           <VStack mt="4" spacing="4">
-            <Input name="email" label="E-mail" />
-            <Input name="password" label="Password" />
+            <Input name="email" label="E-mail" type="email" />
+            <Input name="password" label="Password" type="password" />
           </VStack>
         </ModalBody>
 
