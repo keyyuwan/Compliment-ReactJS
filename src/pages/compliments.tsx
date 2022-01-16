@@ -1,4 +1,5 @@
 import Router from "next/router";
+import Link from "next/link";
 import {
   Flex,
   Avatar,
@@ -11,7 +12,7 @@ import { FaSignOutAlt } from "react-icons/fa";
 import { useAuth } from "../contexts/AuthContext";
 
 export default function Compliments() {
-  const { signOut } = useAuth();
+  const { signOut, isAuthenticated, user } = useAuth();
 
   function logOut() {
     signOut();
@@ -19,11 +20,11 @@ export default function Compliments() {
     Router.push("/");
   }
 
-  return (
+  return isAuthenticated ? (
     <Box maxW="1120px" mx="auto" mt="16">
       <Flex align="center" justify="center" gap="6">
-        <Avatar bg="purple.400" size="lg" name="Key Yu Wan" />
-        <Heading>Key Yu Wan</Heading>
+        <Avatar bg="purple.400" size="lg" name={user?.name} />
+        <Heading>{user?.name}</Heading>
         <IconButton
           colorScheme="red"
           aria-label="Sign out"
@@ -45,5 +46,11 @@ export default function Compliments() {
         </Button>
       </Flex>
     </Box>
+  ) : (
+    <Flex w="100vw" h="100vh" align="center" justify="center">
+      <Heading textDecoration="underline">
+        Please, <Link href="/">authenticate</Link>
+      </Heading>
+    </Flex>
   );
 }

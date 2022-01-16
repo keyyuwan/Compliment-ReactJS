@@ -1,5 +1,4 @@
 import { useState, FormEvent } from "react";
-import Router from "next/router";
 import {
   Modal,
   ModalOverlay,
@@ -10,10 +9,9 @@ import {
   ModalCloseButton,
   Button,
   VStack,
-  useToast,
 } from "@chakra-ui/react";
+import { useAuth } from "../../contexts/AuthContext";
 import { Input } from "../Form/Input";
-import { api } from "../../services/api";
 
 type SignInProps = {
   isOpen: boolean;
@@ -21,9 +19,7 @@ type SignInProps = {
 };
 
 export function SignIn({ isOpen, onClose }: SignInProps) {
-  const toast = useToast();
-
-  const [isLoading, setIsLoading] = useState(false);
+  const { isLoading, signIn } = useAuth();
 
   const [userInfo, setUserInfo] = useState({
     email: "",
@@ -33,41 +29,7 @@ export function SignIn({ isOpen, onClose }: SignInProps) {
   async function handleSignIn(event: FormEvent) {
     event.preventDefault();
 
-    if (!!userInfo.email && !!userInfo.password) {
-      setIsLoading(true);
-      try {
-        const { data: token } = await api.post("/auth", userInfo);
-
-        localStorage.setItem("@comp:token", token);
-
-        toast({
-          title: "Welcome!",
-          status: "success",
-          duration: 3000,
-          isClosable: true,
-        });
-
-        Router.push("/compliments");
-      } catch (err) {
-        toast({
-          title: "Error signin in",
-          description: err.message,
-          status: "error",
-          duration: 3000,
-          isClosable: true,
-        });
-      } finally {
-        setIsLoading(false);
-      }
-    } else {
-      toast({
-        title: "Error signin in",
-        description: "Fill in email and password to continue.",
-        status: "error",
-        duration: 3000,
-        isClosable: true,
-      });
-    }
+    signIn(userInfo);
   }
 
   return (
