@@ -1,7 +1,14 @@
 import { FormEvent, useState } from "react";
 import Router from "next/router";
 import Link from "next/link";
-import { Flex, VStack, Heading, Button, useToast } from "@chakra-ui/react";
+import {
+  Flex,
+  VStack,
+  Heading,
+  Button,
+  useToast,
+  IconButton,
+} from "@chakra-ui/react";
 import { FaArrowLeft } from "react-icons/fa";
 import { Input } from "../components/Form/Input";
 import { api } from "../services/api";
@@ -20,28 +27,38 @@ export default function SignUp() {
   async function handleSignUp(event: FormEvent) {
     event.preventDefault();
 
-    setIsLoading(true);
-    try {
-      await api.post("/users", userInfo);
+    if (!!userInfo.name && !!userInfo.email && !!userInfo.password) {
+      setIsLoading(true);
+      try {
+        await api.post("/users", userInfo);
 
-      toast({
-        title: "Account created!",
-        status: "success",
-        duration: 3000,
-        isClosable: true,
-      });
+        toast({
+          title: "Account created!",
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+        });
 
-      Router.push("/");
-    } catch (err) {
+        Router.push("/");
+      } catch (err) {
+        toast({
+          title: "Error creating account.",
+          description: err.message,
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
+      } finally {
+        setIsLoading(false);
+      }
+    } else {
       toast({
         title: "Error creating account.",
-        description: err.message,
+        description: "Fill in every field.",
         status: "error",
         duration: 3000,
         isClosable: true,
       });
-    } finally {
-      setIsLoading(false);
     }
   }
 
@@ -58,9 +75,12 @@ export default function SignUp() {
       >
         <Flex align="center" gap="4">
           <Link href="/">
-            <Button bg="none" _hover={{ bg: "none" }}>
-              <FaArrowLeft style={{ color: "white" }} />
-            </Button>
+            <IconButton
+              bg="none"
+              _hover={{ bg: "none" }}
+              aria-label="Go back"
+              icon={<FaArrowLeft style={{ color: "white" }} />}
+            />
           </Link>
           <Heading fontSize="xl" color="purple.50">
             Sign Up
