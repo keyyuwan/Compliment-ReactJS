@@ -6,6 +6,7 @@ import { FaSignOutAlt } from "react-icons/fa";
 import { useAuth } from "../contexts/AuthContext";
 import { NavButton } from "../components/NavButton";
 import { Users } from "../components/Users";
+import { Tags } from "../components/Tags";
 
 export default function Compliments() {
   const { signOut, isAuthenticated, user } = useAuth();
@@ -57,6 +58,12 @@ export default function Compliments() {
       {buttonActive === "users" && (
         <Box mt="8">
           <Users />
+        </Box>
+      )}
+
+      {buttonActive === "tags" && (
+        <Box mt="8">
+          <Tags />
         </Box>
       )}
     </Box>

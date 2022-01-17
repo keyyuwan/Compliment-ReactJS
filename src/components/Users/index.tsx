@@ -18,8 +18,9 @@ export function Users() {
         <Flex key={user.id} align="center" gap="4">
           <Avatar bg="purple.400" size="md" name={user.name} />
           <Text>{user.name}</Text>
-          <Tooltip label="Compliment user" hasArrow>
+          <Tooltip label={`Compliment ${user.name}`} hasArrow>
             <IconButton
+              size="sm"
               bg="purple.300"
               _hover={{ bg: "purple.300" }}
               aria-label="Compliment user"

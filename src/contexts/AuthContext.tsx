@@ -1,6 +1,12 @@
 import Router from "next/router";
 import { useToast } from "@chakra-ui/react";
-import { createContext, ReactNode, useContext, useState } from "react";
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { api } from "../services/api";
 
 interface UserInfo {
@@ -11,12 +17,13 @@ interface UserInfo {
 interface User {
   name: string;
   email: string;
+  admin: boolean;
 }
 interface AuthContextData {
   signOut: () => void;
   signIn: (userInfo: UserInfo) => void;
   isLoading: boolean;
-  user: User;
+  user: User | null;
   isAuthenticated: boolean;
 }
 
@@ -32,6 +39,16 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<User | null>(null);
 
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    const token = JSON.parse(localStorage.getItem("@comp:token"));
+
+    if (token) {
+      api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
+      api.get("/userauth").then((res) => setUser(res.data));
+    }
+  }, []);
 
   async function signIn(userInfo: UserInfo) {
     if (!!userInfo.email && !!userInfo.password) {
@@ -75,6 +92,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   }
 
   function signOut() {
+    setUser(null);
     localStorage.removeItem("@comp:token");
   }
 
