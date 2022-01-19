@@ -39,7 +39,7 @@ export function Compliment({ compliments, type }: ComplimentProps) {
             <Text fontWeight="bold">
               {type === "received"
                 ? compliment.userSender.name
-                : compliment.userReceiver.name}
+                : `To: ${compliment.userReceiver.name}`}
             </Text>
             <Text>
               {compliment.message} - <strong>{compliment.tag.name}</strong>
