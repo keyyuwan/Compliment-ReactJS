@@ -35,7 +35,7 @@ export function Tags() {
       ))}
       {user.admin && (
         <Button colorScheme="purple" leftIcon={<FaPlus />}>
-          Criar Tag
+          Create Tag
         </Button>
       )}
     </VStack>

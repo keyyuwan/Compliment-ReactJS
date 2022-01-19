@@ -7,6 +7,7 @@ import { useAuth } from "../contexts/AuthContext";
 import { NavButton } from "../components/NavButton";
 import { Users } from "../components/Users";
 import { Tags } from "../components/Tags";
+import { ComplimentsList } from "../components/ComplimentsList";
 
 export default function Compliments() {
   const { signOut, isAuthenticated, user } = useAuth();
@@ -64,6 +65,18 @@ export default function Compliments() {
       {buttonActive === "tags" && (
         <Box mt="8">
           <Tags />
+        </Box>
+      )}
+
+      {buttonActive === "compliments-received" && (
+        <Box mt="8">
+          <ComplimentsList complimentType="received" />
+        </Box>
+      )}
+
+      {buttonActive === "compliments-sent" && (
+        <Box mt="8">
+          <ComplimentsList complimentType="sent" />
         </Box>
       )}
     </Box>
