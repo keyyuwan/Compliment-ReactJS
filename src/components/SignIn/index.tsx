@@ -49,6 +49,7 @@ export function SignIn({ isOpen, onClose }: SignInProps) {
               onChange={(event) =>
                 setUserInfo({ ...userInfo, email: event.target.value })
               }
+              isRequired
             />
             <Input
               name="password"
@@ -58,6 +59,7 @@ export function SignIn({ isOpen, onClose }: SignInProps) {
               onChange={(event) =>
                 setUserInfo({ ...userInfo, password: event.target.value })
               }
+              isRequired
             />
           </VStack>
         </ModalBody>

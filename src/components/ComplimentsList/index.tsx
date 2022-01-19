@@ -12,7 +12,7 @@ export function ComplimentsList({ complimentType }: ComplimentsListProps) {
   const sentCompliments = useUserComplimentsSent();
 
   return (
-    <VStack spacing="6">
+    <VStack spacing="6" align="flex-start">
       <Compliment
         compliments={
           complimentType === "received" ? receivedCompliments : sentCompliments

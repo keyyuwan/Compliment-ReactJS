@@ -51,43 +51,33 @@ export function AuthProvider({ children }: AuthProviderProps) {
   }, []);
 
   async function signIn(userInfo: UserInfo) {
-    if (!!userInfo.email && !!userInfo.password) {
-      setIsLoading(true);
-      try {
-        const { data } = await api.post("/auth", userInfo);
+    setIsLoading(true);
+    try {
+      const { data } = await api.post("/auth", userInfo);
 
-        localStorage.setItem("@comp:token", JSON.stringify(data.token));
-        api.defaults.headers.common["Authorization"] = `Bearer ${data.token}`;
+      localStorage.setItem("@comp:token", JSON.stringify(data.token));
+      api.defaults.headers.common["Authorization"] = `Bearer ${data.token}`;
 
-        setUser(data.user);
+      setUser(data.user);
 
-        toast({
-          title: "Welcome!",
-          status: "success",
-          duration: 3000,
-          isClosable: true,
-        });
+      toast({
+        title: "Welcome!",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
 
-        Router.push("/compliments");
-      } catch (err) {
-        toast({
-          title: "Error signin in",
-          description: err.message,
-          status: "error",
-          duration: 3000,
-          isClosable: true,
-        });
-      } finally {
-        setIsLoading(false);
-      }
-    } else {
+      Router.push("/compliments");
+    } catch (err) {
       toast({
         title: "Error signin in",
-        description: "Fill in email and password to continue.",
+        description: err.message,
         status: "error",
         duration: 3000,
         isClosable: true,
       });
+    } finally {
+      setIsLoading(false);
     }
   }
 

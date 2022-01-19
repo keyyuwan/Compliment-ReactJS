@@ -27,38 +27,28 @@ export default function SignUp() {
   async function handleSignUp(event: FormEvent) {
     event.preventDefault();
 
-    if (!!userInfo.name && !!userInfo.email && !!userInfo.password) {
-      setIsLoading(true);
-      try {
-        await api.post("/users", userInfo);
+    setIsLoading(true);
+    try {
+      await api.post("/users", userInfo);
 
-        toast({
-          title: "Account created!",
-          status: "success",
-          duration: 3000,
-          isClosable: true,
-        });
+      toast({
+        title: "Account created!",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
 
-        Router.push("/");
-      } catch (err) {
-        toast({
-          title: "Error creating account.",
-          description: err.message,
-          status: "error",
-          duration: 3000,
-          isClosable: true,
-        });
-      } finally {
-        setIsLoading(false);
-      }
-    } else {
+      Router.push("/");
+    } catch (err) {
       toast({
         title: "Error creating account.",
-        description: "Fill in every field.",
+        description: err.message,
         status: "error",
         duration: 3000,
         isClosable: true,
       });
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -95,6 +85,7 @@ export default function SignUp() {
             onChange={(event) =>
               setUserInfo({ ...userInfo, name: event.target.value })
             }
+            isRequired
           />
           <Input
             name="email"
@@ -104,6 +95,7 @@ export default function SignUp() {
             onChange={(event) =>
               setUserInfo({ ...userInfo, email: event.target.value })
             }
+            isRequired
           />
           <Input
             name="password"
@@ -113,6 +105,7 @@ export default function SignUp() {
             onChange={(event) =>
               setUserInfo({ ...userInfo, password: event.target.value })
             }
+            isRequired
           />
         </VStack>
 

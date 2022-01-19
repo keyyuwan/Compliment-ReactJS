@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
 import { api } from "../services/api";
 
-interface User {
+export interface User {
   id: string;
   name: string;
   email: string;
-  admin: boolean;
 }
 
 export function useUsers() {

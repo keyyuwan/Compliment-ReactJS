@@ -13,9 +13,8 @@ export default function Compliments() {
   const { signOut, isAuthenticated, user } = useAuth();
 
   function logOut() {
-    signOut();
-
     Router.push("/");
+    signOut();
   }
 
   const [buttonActive, setButtonActive] = useState("compliments-received");

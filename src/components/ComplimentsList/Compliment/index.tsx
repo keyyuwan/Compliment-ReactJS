@@ -25,7 +25,7 @@ export function Compliment({ compliments, type }: ComplimentProps) {
   return (
     <>
       {compliments.map((compliment) => (
-        <Flex align="center" gap="4">
+        <Flex key={compliment.id} align="center" gap="4">
           <Avatar
             bg="purple.400"
             size="md"
