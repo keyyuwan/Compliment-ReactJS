@@ -13,6 +13,7 @@ interface Compliment {
     name: string;
   };
   message: string;
+  created_at: string;
 }
 
 interface ComplimentProps {
@@ -42,6 +43,13 @@ export function Compliment({ compliments, type }: ComplimentProps) {
             </Text>
             <Text>
               {compliment.message} - <strong>{compliment.tag.name}</strong>
+            </Text>
+            <Text fontSize="sm" color="purple.400">
+              {new Date(compliment.created_at).toLocaleString("en-US", {
+                day: "2-digit",
+                month: "long",
+                year: "numeric",
+              })}
             </Text>
           </Flex>
         </Flex>

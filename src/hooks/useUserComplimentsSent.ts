@@ -10,6 +10,7 @@ interface Compliment {
   tag: {
     name: string;
   };
+  created_at: string;
 }
 
 export function useUserComplimentsSent() {
