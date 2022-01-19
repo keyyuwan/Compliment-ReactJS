@@ -16,7 +16,7 @@ import {
 } from "@chakra-ui/react";
 import { useUsers } from "../../hooks/useUsers";
 import { useAuth } from "../../contexts/AuthContext";
-import { useTags } from "../../hooks/useTags";
+import { useTags, Tag } from "../../hooks/useTags";
 import { api } from "../../services/api";
 
 interface User {
@@ -28,12 +28,14 @@ interface CreateComplimentProps {
   isComplimentModalOpen: boolean;
   handleClose: () => void;
   userSelected?: User;
+  tagSelected?: Tag;
 }
 
 export function CreateCompliment({
   isComplimentModalOpen,
   handleClose,
   userSelected,
+  tagSelected,
 }: CreateComplimentProps) {
   const users = useUsers();
   const tags = useTags();
@@ -43,8 +45,8 @@ export function CreateCompliment({
   const { user: userAuth } = useAuth();
 
   const [sendComplimentInfo, setSendComplimentInfo] = useState({
-    userId: userSelected.id || "",
-    tagId: "",
+    userId: userSelected !== undefined ? userSelected.id : "",
+    tagId: tagSelected !== undefined ? tagSelected.id : "",
     message: "",
   });
 
@@ -56,6 +58,15 @@ export function CreateCompliment({
       });
     }
   }, [userSelected]);
+
+  useEffect(() => {
+    if (tagSelected) {
+      setSendComplimentInfo({
+        ...sendComplimentInfo,
+        tagId: tagSelected.id,
+      });
+    }
+  }, [tagSelected]);
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -115,6 +126,12 @@ export function CreateCompliment({
                 focusBorderColor="purple.400"
                 placeholder="Person"
                 isRequired
+                onChange={(event) =>
+                  setSendComplimentInfo({
+                    ...sendComplimentInfo,
+                    userId: event.target.value,
+                  })
+                }
               >
                 {users.map((user) => {
                   if (userAuth.email !== user.email) {
@@ -127,25 +144,36 @@ export function CreateCompliment({
                 })}
               </Select>
             )}
-            <Select
-              variant="filled"
-              size="lg"
-              focusBorderColor="purple.400"
-              placeholder="Tag"
-              onChange={(event) =>
-                setSendComplimentInfo({
-                  ...sendComplimentInfo,
-                  tagId: event.target.value,
-                })
-              }
-              isRequired
-            >
-              {tags.map((tag) => (
-                <option key={tag.id} value={tag.id}>
-                  {tag.customName}
-                </option>
-              ))}
-            </Select>
+
+            {tagSelected ? (
+              <Select
+                variant="filled"
+                size="lg"
+                focusBorderColor="purple.400"
+                placeholder={tagSelected.customName}
+              />
+            ) : (
+              <Select
+                variant="filled"
+                size="lg"
+                focusBorderColor="purple.400"
+                placeholder="Tag"
+                onChange={(event) =>
+                  setSendComplimentInfo({
+                    ...sendComplimentInfo,
+                    tagId: event.target.value,
+                  })
+                }
+                isRequired
+              >
+                {tags.map((tag) => (
+                  <option key={tag.id} value={tag.id}>
+                    {tag.customName}
+                  </option>
+                ))}
+              </Select>
+            )}
+
             <Textarea
               isRequired
               size="lg"

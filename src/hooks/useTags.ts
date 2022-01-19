@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { api } from "../services/api";
 
-interface Tag {
+export interface Tag {
   id: string;
   name: string;
   customName: string;

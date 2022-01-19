@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Router from "next/router";
+import { useRouter } from "next/router";
 import Link from "next/link";
 import { Flex, Avatar, Heading, Box, IconButton } from "@chakra-ui/react";
 import { FaSignOutAlt } from "react-icons/fa";
@@ -12,9 +12,12 @@ import { ComplimentsList } from "../components/ComplimentsList";
 export default function Compliments() {
   const { signOut, isAuthenticated, user } = useAuth();
 
+  const router = useRouter();
+
   function logOut() {
-    Router.push("/");
     signOut();
+
+    router.push("/");
   }
 
   const [buttonActive, setButtonActive] = useState("compliments-received");
@@ -56,25 +59,25 @@ export default function Compliments() {
       </Flex>
 
       {buttonActive === "users" && (
-        <Box mt="8">
+        <Box my="8">
           <Users />
         </Box>
       )}
 
       {buttonActive === "tags" && (
-        <Box mt="8">
+        <Box my="8">
           <Tags />
         </Box>
       )}
 
       {buttonActive === "compliments-received" && (
-        <Box mt="8">
+        <Box my="8">
           <ComplimentsList complimentType="received" />
         </Box>
       )}
 
       {buttonActive === "compliments-sent" && (
-        <Box mt="8">
+        <Box my="8">
           <ComplimentsList complimentType="sent" />
         </Box>
       )}

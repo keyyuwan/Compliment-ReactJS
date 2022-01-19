@@ -1,4 +1,4 @@
-import Router from "next/router";
+import { useRouter } from "next/router";
 import { useToast } from "@chakra-ui/react";
 import {
   createContext,
@@ -35,6 +35,7 @@ const AuthContext = createContext({} as AuthContextData);
 
 export function AuthProvider({ children }: AuthProviderProps) {
   const toast = useToast();
+  const router = useRouter();
 
   const [user, setUser] = useState<User | null>(null);
 
@@ -67,7 +68,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         isClosable: true,
       });
 
-      Router.push("/compliments");
+      router.push("/compliments");
     } catch (err) {
       toast({
         title: "Error signin in",
