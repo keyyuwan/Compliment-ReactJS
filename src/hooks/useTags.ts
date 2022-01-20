@@ -7,7 +7,7 @@ export interface Tag {
   customName: string;
 }
 
-export function useTags() {
+export function useTags(isCreateTagLoading: boolean) {
   const [tags, setTags] = useState<Tag[]>([]);
 
   useEffect(() => {
@@ -22,7 +22,7 @@ export function useTags() {
     }
 
     getTags();
-  }, []);
+  }, [isCreateTagLoading]);
 
   return tags;
 }

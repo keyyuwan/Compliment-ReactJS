@@ -91,7 +91,7 @@ export function CreateCompliment({
       handleClose();
     } catch (err) {
       toast({
-        title: "Error to send compliment.",
+        title: "Error to send your compliment.",
         description: err.message,
         status: "error",
         duration: 3000,

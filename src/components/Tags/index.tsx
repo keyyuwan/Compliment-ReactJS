@@ -11,9 +11,12 @@ import { FaPlus } from "react-icons/fa";
 import { useAuth } from "../../contexts/AuthContext";
 import { useTags } from "../../hooks/useTags";
 import { CreateCompliment } from "../CreateCompliment";
+import { CreateTag } from "../CreateTag";
 
 export function Tags() {
-  const tags = useTags();
+  const [isCreateTagLoading, setIsCreateTagLoading] = useState(false);
+
+  const tags = useTags(isCreateTagLoading);
 
   const { user } = useAuth();
 
@@ -21,6 +24,12 @@ export function Tags() {
 
   function handleCloseComplimentModal() {
     setIsComplimentModalOpen(false);
+  }
+
+  const [isCreateTagModalOpen, setIsCreateTagModalOpen] = useState(false);
+
+  function handleCloseCreateTagModal() {
+    setIsCreateTagModalOpen(false);
   }
 
   const [tagSelected, setTagSelected] = useState({
@@ -53,7 +62,11 @@ export function Tags() {
           </Flex>
         ))}
         {user.admin && (
-          <Button colorScheme="purple" leftIcon={<FaPlus />}>
+          <Button
+            onClick={() => setIsCreateTagModalOpen(true)}
+            colorScheme="purple"
+            leftIcon={<FaPlus />}
+          >
             Create Tag
           </Button>
         )}
@@ -63,6 +76,13 @@ export function Tags() {
         isComplimentModalOpen={isComplimentModalOpen}
         handleClose={handleCloseComplimentModal}
         tagSelected={tagSelected}
+      />
+
+      <CreateTag
+        isCreateTagModalOpen={isCreateTagModalOpen}
+        handleClose={handleCloseCreateTagModal}
+        isLoading={isCreateTagLoading}
+        setIsLoading={setIsCreateTagLoading}
       />
     </>
   );
