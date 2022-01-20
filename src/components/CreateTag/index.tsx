@@ -63,7 +63,7 @@ export function CreateTag({
     <Modal isOpen={isCreateTagModalOpen} onClose={handleClose} isCentered>
       <ModalOverlay />
 
-      <ModalContent>
+      <ModalContent as="form" onSubmit={handleCreateTag}>
         <ModalHeader>Create Tag</ModalHeader>
         <ModalCloseButton />
 
@@ -81,11 +81,7 @@ export function CreateTag({
         <ModalFooter>
           <Flex align="center" gap="4">
             <Button onClick={handleClose}>Cancel</Button>
-            <Button
-              colorScheme="purple"
-              onClick={handleCreateTag}
-              isLoading={isLoading}
-            >
+            <Button colorScheme="purple" type="submit" isLoading={isLoading}>
               Create
             </Button>
           </Flex>
