@@ -5,6 +5,15 @@ This repository contains the Front-End part of the Project Compliment.
 Back-End: <a href="https://github.com/keyyuwan/Compliment-Node.js" target="_blank">Compliment-Node.js</a>
 <br />
 
+# 🎥 Overview
+
+![Landing Page](./public/readme/landing.png)
+
+![Compliment screen](./public/readme/compliment.png)
+![Compliment GIF](./public/readme/compliment.gif)
+
+<br />
+
 # 💻 Project
 
 I developed the back-end part of this project in the NLW event from Rocketseat. And so, I wanted to develop the Front-end to improve even more my Front-End skills.
