@@ -7,7 +7,7 @@ export interface Tag {
   customName: string;
 }
 
-export function useTags(isCreateTagLoading: boolean) {
+export function useTags(isCreateTagLoading?: boolean) {
   const [tags, setTags] = useState<Tag[]>([]);
 
   useEffect(() => {

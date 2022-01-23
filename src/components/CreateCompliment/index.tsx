@@ -13,11 +13,11 @@ import {
   Textarea,
   Select,
   useToast,
+  Input,
 } from "@chakra-ui/react";
-import { useUsers } from "../../hooks/useUsers";
-import { useAuth } from "../../contexts/AuthContext";
 import { useTags, Tag } from "../../hooks/useTags";
 import { api } from "../../services/api";
+import { SearchedUsers } from "./SearchedUsers";
 
 interface User {
   id: string;
@@ -37,12 +37,9 @@ export function CreateCompliment({
   userSelected,
   tagSelected,
 }: CreateComplimentProps) {
-  const users = useUsers();
   const tags = useTags();
 
   const toast = useToast();
-
-  const { user: userAuth } = useAuth();
 
   const [sendComplimentInfo, setSendComplimentInfo] = useState({
     userId: userSelected !== undefined ? userSelected.id : "",
@@ -89,6 +86,13 @@ export function CreateCompliment({
       });
 
       handleClose();
+      setSearchedUserName("");
+      setSearchedUsers([]);
+      setSendComplimentInfo({
+        userId: "",
+        tagId: "",
+        message: "",
+      });
     } catch (err) {
       toast({
         title: "Error to send your compliment.",
@@ -101,6 +105,22 @@ export function CreateCompliment({
       setIsLoading(false);
     }
   }
+
+  const [searchedUserName, setSearchedUserName] = useState("");
+
+  const [searchedUsers, setSearchedUsers] = useState([]);
+
+  useEffect(() => {
+    api
+      .get("/searchusers", {
+        params: {
+          name: searchedUserName,
+        },
+      })
+      .then((res) => setSearchedUsers(res.data));
+  }, [searchedUserName]);
+
+  const [isPopoverOpen, setIsPopoverOpen] = useState(true);
 
   return (
     <Modal isOpen={isComplimentModalOpen} onClose={handleClose} isCentered>
@@ -120,29 +140,26 @@ export function CreateCompliment({
                 placeholder={userSelected.name}
               />
             ) : (
-              <Select
-                variant="filled"
-                size="lg"
-                focusBorderColor="purple.400"
-                placeholder="Person"
-                isRequired
-                onChange={(event) =>
-                  setSendComplimentInfo({
-                    ...sendComplimentInfo,
-                    userId: event.target.value,
-                  })
-                }
+              <SearchedUsers
+                searchedUsers={searchedUsers}
+                sendComplimentInfo={sendComplimentInfo}
+                setSendComplimentInfo={setSendComplimentInfo}
+                setSearchedUserName={setSearchedUserName}
+                isOpen={!!searchedUserName && isPopoverOpen}
+                setIsPopoverOpen={setIsPopoverOpen}
               >
-                {users.map((user) => {
-                  if (userAuth.email !== user.email) {
-                    return (
-                      <option key={user.id} value={user.id}>
-                        {user.name}
-                      </option>
-                    );
-                  }
-                })}
-              </Select>
+                <Input
+                  variant="filled"
+                  size="lg"
+                  placeholder="Search user"
+                  focusBorderColor="purple.400"
+                  value={searchedUserName}
+                  onChange={(event) => {
+                    setSearchedUserName(event.target.value);
+                    setIsPopoverOpen(true);
+                  }}
+                />
+              </SearchedUsers>
             )}
 
             {tagSelected ? (
